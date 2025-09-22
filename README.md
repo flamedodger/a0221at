@@ -4,7 +4,7 @@
 
 ## Overview
 
-Modular Arduino implementation for reading A02YYUW ultrasonic sensor data and publishing water level to MQTT. Designed for integration with Home Assistant or any MQTT consumer.
+Modular Arduino implementation for reading A02YYUW ultrasonic sensor data and publishing water level to MQTT. Designed for integration with Home Assistant or any MQTT consumer for use in a water tank.
 
 ## Sensor Model
 

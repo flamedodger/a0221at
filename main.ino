@@ -6,7 +6,7 @@ const char* ssid = "Your WIFI SSID";
 const char* password = "Your WIFI password";
 
 // MQTT broker settings
-const char* mqtt_server = "192.168.0.52";  // Your Home Assistant IP
+const char* mqtt_server = "192.168.*.*";  // Your Home Assistant IP
 const char* mqtt_user = "mqtt_user";       // Your MQTT username
 const char* mqtt_password = "mqtt_password";  // Your MQTT password
 const char* mqtt_topic = "home/ao221at/distance";

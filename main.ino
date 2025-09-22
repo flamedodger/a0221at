@@ -1,5 +1,6 @@
 #include <WiFi.h>
 #include <PubSubClient.h>
+#include <UltrasonicA02YYUW.h>
 
 // Wi-Fi credentials
 const char* ssid = "Your WIFI SSID";

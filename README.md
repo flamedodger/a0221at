@@ -1,6 +1,6 @@
 # A02YYUW Water Level Sensor – Arduino + MQTT
 
-## A02YYUW-MQTT **(A021AT)**
+## A02YYUW-MQTT **(A0221AT)**
 
 ## Overview
 
@@ -8,18 +8,18 @@ Modular Arduino implementation for reading A02YYUW ultrasonic sensor data and pu
 
 ## Sensor Model
 
-This project uses the **A021AT Manual UART version** of the A02YYUW ultrasonic sensor.
+This project uses the **A0221AT Manual UART version** of the A02YYUW ultrasonic sensor.
 
-- **Model number:** A021AT
+- **Model number:** A0221AT
 - **Do not use the PWM version** — it outputs pulse-width signals, not serial data.
 - **Do not use the auto-UART version** — this setup expects manual serial polling.
 - All four wires are connected: `VCC`, `GND`, `TX`, and `RX`.
 - Sensor communicates at 9600 baud and must be polled manually.
 
-## Folder Structure
+## Folder Structure for HomeAssistant
 
-a02yyuw-water-level/
- ├── components/
+esphome/
+ ├── custom_components/
  │ ├── a02yyuw_sensor.cpp/h                 // UART parsing and distance conversion
  │ ├── water_level.cpp/h                    // Fill percentage and threshold logic
  │ ├── mqtt_bridge.cpp/h                    // MQTT publishing 

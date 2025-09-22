@@ -52,6 +52,7 @@ esphome/
 
 ## Notes
 
+- This project depends on the UltrasonicA02YYUW library. Install it via the Arduino Library Manager or place it in your libraries  folder.
 - Sensor output parsed as 0xFF 0xXX 0xYY checksum
 - Fill level mapped linearly from min/max depth
 - MQTT reconnect and publish handled in loop

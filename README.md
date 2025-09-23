@@ -15,6 +15,7 @@ This project uses the **A0221AT Manual UART version** of the A02YYUW ultrasonic 
 - **Do not use the auto-UART version** — this setup expects manual serial polling.
 - All four wires are connected: `VCC`, `GND`, `TX`, and `RX`.
 - Sensor communicates at 9600 baud and must be polled manually.
+- Use a 5v supply.
 
 ## Folder Structure for HomeAssistant
 

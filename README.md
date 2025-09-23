@@ -17,6 +17,14 @@ This project uses the **A0221AT Manual UART version** of the A02YYUW ultrasonic 
 - Sensor communicates at 9600 baud and must be polled manually.
 - Use a 5v supply.
 
+## 📸 Hardware Setup
+
+*A0221AT sensor with shrink-wrapped leads and waterproof connector*
+
+![ESP32 casing](docs/images/esp32-case.jpg)  
+*ESP32 wroom 32d module housed in an enclosure with side access for USB*
+
+
 ## Folder Structure for HomeAssistant
 
 esphome/

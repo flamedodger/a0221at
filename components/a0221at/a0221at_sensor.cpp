@@ -7,6 +7,10 @@ namespace a0221at {
 
 static const char *const TAG = "a0221at.sensor";
 
+void A0221ATSensor::set_uart_parent(esphome::uart::UARTComponent *parent) {
+  this->uart_ = parent;
+}
+
 void A0221ATSensor::update() {
   std::string line;
   while (this->uart_->available()) {

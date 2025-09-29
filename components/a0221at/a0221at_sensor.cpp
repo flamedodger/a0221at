@@ -14,6 +14,13 @@ void A0221ATSensor::set_uart_parent(esphome::uart::UARTComponent *parent) {
 void A0221ATSensor::update() {
   static std::string buffer;
 
+  // Send trigger command — adjust if needed
+  const char *trigger = "R\r\n";  // Some models use "\r" or "U"
+  this->uart_->write_str(trigger);
+  ESP_LOGD(TAG, "Sent trigger: '%s'", trigger);
+
+  delay(50);  // Allow sensor time to respond
+
   ESP_LOGD(TAG, "Update triggered, UART available: %d", this->uart_->available());
 
   while (this->uart_->available()) {

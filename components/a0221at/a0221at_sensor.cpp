@@ -12,13 +12,17 @@ void A0221ATSensor::set_uart_parent(esphome::uart::UARTComponent *parent) {
 }
 
 void A0221ATSensor::update() {
+  this->uart_->flush();  // Clear stale buffer
   std::string line;
+
+  ESP_LOGD(TAG, "Update triggered, UART available: %d", this->uart_->available());
+  ESP_LOGD(TAG, "Reading bytes:");
+
   while (this->uart_->available()) {
     uint8_t c;
-    if (!this->uart_->read_byte(&c))
-      break;
-    if (c == '\n')
-      break;
+    if (!this->uart_->read_byte(&c)) break;
+    ESP_LOGD(TAG, "Byte: 0x%02X (%c)", c, static_cast<char>(c));
+    if (c == '\n') break;
     line += static_cast<char>(c);
   }
 

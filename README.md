@@ -10,22 +10,37 @@ Trigger-based UART integration for the A0221AT ultrasonic sensor. Sends a comman
 
 This project uses the **A0221AT Manual UART version** of the A02YYUW ultrasonic sensor.
 
-- **Model number:** A0221AT
-- **Do not use the PWM version** — it outputs pulse-width signals, not serial data.
-- **Do not use the auto-UART version** — this setup expects manual serial polling.
-- All four wires are connected: `VCC`, `GND`, `TX`, and `RX`.
-- Sensor communicates at 9600 baud and must be polled manually.
-- ⚠️ Sensor is rated for 5 V supply, but works reliably at 3.3 V with ESP32. Monitor for range or stability issues.
+Sensor Model
 
-## 📸 Hardware Setup
+This project uses the A0221AT Manual UART version of the A02YYUW ultrasonic sensor.
 
-*A0221AT sensor with shrink-wrapped leads and waterproof connector*
+    Model number: A0221AT
 
-![ESP32 casing](docs/images/esp32-case.jpg)  
-*ESP32 wroom 32d module housed in an enclosure with side access for USB*
+    Do not use the PWM version — it outputs pulse-width signals, not serial data
+
+    Do not use the auto-UART version — this setup expects manual serial polling
+
+    All four wires are connected: VCC, GND, TX, and RX
+
+    Sensor communicates at 9600 baud and must be polled manually
+
+    ⚠️ Sensor is rated for 5 V supply, but works reliably at 3.3 V with ESP32. Monitor for range or stability issues
 
 
-## Folder Structure for HomeAssistant
+## 🖼️ Hardware
+
+![A0221AT Sensor Module (ESPBoards)](https://www.espboards.dev/img/GZGsogluph-1000.avif)
+
+![A0221AT IP65 Waterproof Version](https://www.robotshop.com/media/catalog/product/cache/1/image/800x800/9df78eab33525d08d6e5fb8d27136e95/u/l/ultrasonic_sensor_ip65.jpg)
+
+## Folder Structure
+
+a0221at/
+├── __init__.py
+├── sensor.py
+├── const.py
+├── uart_handler.py
+├── README.md
 
 # A0221AT ESPHome Integration
 
@@ -37,6 +52,26 @@ Trigger-based UART integration for A0221AT ultrasonic sensor.
 external_components:
   - source: github://flamedodger/a0221at@v1.0.19
     components: [a0221at]
+
+📦 ESPHome Installation
+
+Add this to your ESPHome YAML:
+
+external_components:
+  - source: github://flamedodger/a0221at@v1.0.20
+    components: [a0221at]
+
+uart:
+  tx_pin: GPIO17
+  rx_pin: GPIO16
+  baud_rate: 9600
+
+sensor:
+  - platform: a0221at
+    name: "A0221AT Distance"
+    unit_of_measurement: "cm"
+    accuracy_decimals: 1
+    update_interval: 1s
 
 
 ## Pinout

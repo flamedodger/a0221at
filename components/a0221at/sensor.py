@@ -15,7 +15,7 @@ a0221at_ns = cg.esphome_ns.namespace("a0221at")
 A0221ATSensor = a0221at_ns.class_("A0221ATSensor", sensor.Sensor, cg.Component)
 
 CONFIG_SCHEMA = cv.Schema({
-    cv.GenerateID(): cv.declare_id(A0221ATSensor),
+    cv.GenerateID(CONF_ID): cv.declare_id(A0221ATSensor),
     cv.Required(CONF_NAME): cv.string,
     cv.Optional(CONF_UNIT_OF_MEASUREMENT, default="cm"): cv.string,
     cv.Optional(CONF_ACCURACY_DECIMALS, default=1): cv.positive_int,

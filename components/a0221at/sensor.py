@@ -1,24 +1,30 @@
 import esphome.codegen as cg
 import esphome.config_validation as cv
-from esphome.components import sensor, uart
-from esphome.const import CONF_NAME, CONF_UART_ID, UNIT_MILLIMETER, ICON_RULER
+from esphome import sensor, uart
+from esphome.const import (
+    CONF_ID,
+    CONF_NAME,
+    CONF_UNIT_OF_MEASUREMENT,
+    CONF_ACCURACY_DECIMALS,
+    CONF_UPDATE_INTERVAL,
+)
 
 DEPENDENCIES = ["uart"]
 
 a0221at_ns = cg.esphome_ns.namespace("a0221at")
-A0221ATSensor = a0221at_ns.class_("A0221ATSensor", sensor.Sensor, cg.PollingComponent)
+A0221ATSensor = a0221at_ns.class_("A0221ATSensor", sensor.Sensor, cg.Component)
 
-CONFIG_SCHEMA = sensor.sensor_schema(
-    unit_of_measurement=UNIT_MILLIMETER,
-    icon=ICON_RULER,
-    accuracy_decimals=0
-).extend({
+CONFIG_SCHEMA = cv.Schema({
     cv.GenerateID(): cv.declare_id(A0221ATSensor),
-    cv.GenerateID(CONF_UART_ID): cv.use_id(uart.UARTComponent),
-}).extend(cv.polling_component_schema("1s"))
+    cv.Required(CONF_NAME): cv.string,
+    cv.Optional(CONF_UNIT_OF_MEASUREMENT, default="cm"): cv.string,
+    cv.Optional(CONF_ACCURACY_DECIMALS, default=1): cv.positive_int,
+    cv.Optional(CONF_UPDATE_INTERVAL, default="1s"): cv.update_interval,
+}).extend(uart.UART_DEVICE_SCHEMA)
 
 async def to_code(config):
-    uart_component = await cg.get_variable(config[CONF_UART_ID])
+    uart_component = await uart.get_uart_component(config)
     var = cg.new_Pvariable(config[CONF_ID], uart_component)
-    await cg.register_component(var, config)
     await sensor.register_sensor(var, config)
+    await cg.register_component(var, config)
+

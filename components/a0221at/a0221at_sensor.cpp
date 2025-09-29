@@ -1,5 +1,6 @@
 #include "a0221at_sensor.h"
 #include "esphome/core/log.h"
+#include <cstdlib>
 
 namespace esphome {
 namespace a0221at {
@@ -33,11 +34,12 @@ void A0221ATSensor::update() {
 }
 
 float A0221ATSensor::parse_sensor_value(const std::string &line) {
-  try {
-    return std::stof(line);
-  } catch (...) {
+  char *end;
+  float value = std::strtof(line.c_str(), &end);
+  if (end == line.c_str() || std::isnan(value)) {
     return NAN;
   }
+  return value;
 }
 
 }  // namespace a0221at

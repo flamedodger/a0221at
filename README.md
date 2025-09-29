@@ -1,25 +1,34 @@
 # A02YYUW Water Level Sensor – Arduino + MQTT
 
-## A02YYUW-MQTT **(A021AT)**
+## A02YYUW-MQTT **(A0221AT)**
 
 ## Overview
 
-Modular Arduino implementation for reading A02YYUW ultrasonic sensor data and publishing water level to MQTT. Designed for integration with Home Assistant or any MQTT consumer.
+Modular Arduino implementation for reading A02YYUW ultrasonic sensor data and publishing water level to MQTT. Designed for integration with Home Assistant or any MQTT consumer for use in a water tank.
 
 ## Sensor Model
 
-This project uses the **A021AT Manual UART version** of the A02YYUW ultrasonic sensor.
+This project uses the **A0221AT Manual UART version** of the A02YYUW ultrasonic sensor.
 
-- **Model number:** A021AT
+- **Model number:** A0221AT
 - **Do not use the PWM version** — it outputs pulse-width signals, not serial data.
 - **Do not use the auto-UART version** — this setup expects manual serial polling.
 - All four wires are connected: `VCC`, `GND`, `TX`, and `RX`.
 - Sensor communicates at 9600 baud and must be polled manually.
+- Use a 5v supply.
 
-## Folder Structure
+## 📸 Hardware Setup
 
-a02yyuw-water-level/
- ├── components/
+*A0221AT sensor with shrink-wrapped leads and waterproof connector*
+
+![ESP32 casing](docs/images/esp32-case.jpg)  
+*ESP32 wroom 32d module housed in an enclosure with side access for USB*
+
+
+## Folder Structure for HomeAssistant
+
+esphome/
+ ├── custom_components/
  │ ├── a02yyuw_sensor.cpp/h                 // UART parsing and distance conversion
  │ ├── water_level.cpp/h                    // Fill percentage and threshold logic
  │ ├── mqtt_bridge.cpp/h                    // MQTT publishing 
@@ -52,6 +61,7 @@ a02yyuw-water-level/
 
 ## Notes
 
+- This project depends on the UltrasonicA02YYUW library. Install it via the Arduino Library Manager or place it in your libraries  folder.
 - Sensor output parsed as 0xFF 0xXX 0xYY checksum
 - Fill level mapped linearly from min/max depth
 - MQTT reconnect and publish handled in loop
@@ -61,4 +71,4 @@ a02yyuw-water-level/
 
 MIT
 
-# a0221at
+# A02YUUW/a0221at

@@ -1,6 +1,7 @@
 #include "a0221at_sensor.h"
 #include "esphome/core/log.h"
 #include <cstdlib>
+#include <vector>
 
 namespace esphome {
 namespace a0221at {
@@ -12,8 +13,6 @@ void A0221ATSensor::set_uart_parent(esphome::uart::UARTComponent *parent) {
 }
 
 void A0221ATSensor::update() {
-  static std::string buffer;
-
   // Send trigger command — adjust if needed
   const char *trigger = "R\r\n";  // Some models use "\r" or "U"
   this->uart_->write_str(trigger);
@@ -21,32 +20,37 @@ void A0221ATSensor::update() {
 
   delay(50);  // Allow sensor time to respond
 
-  ESP_LOGD(TAG, "Update triggered, UART available: %d", this->uart_->available());
-
+  std::vector<uint8_t> raw;
   while (this->uart_->available()) {
     uint8_t c;
     if (!this->uart_->read_byte(&c)) break;
+    raw.push_back(c);
     ESP_LOGD(TAG, "Byte: 0x%02X (%c)", c, static_cast<char>(c));
-    buffer += static_cast<char>(c);
+  }
 
-    if (c == '\n') {
-      std::string line = buffer;
-      buffer.clear();
+  if (!raw.empty()) {
+    ESP_LOGD(TAG, "Received %d bytes", raw.size());
 
-      if (!line.empty() && line.back() == '\r') {
-        line.pop_back();
-      }
-
-      ESP_LOGD(TAG, "Raw line: '%s'", line.c_str());
-
-      float value = this->parse_sensor_value(line);
-      if (!std::isnan(value)) {
-        ESP_LOGD(TAG, "Parsed value: %.2f", value);
-        this->publish_state(value);
-      } else {
-        ESP_LOGW(TAG, "Failed to parse sensor value from line: '%s'", line.c_str());
-      }
+    std::string hex;
+    for (auto b : raw) {
+      char buf[5];
+      snprintf(buf, sizeof(buf), "%02X ", b);
+      hex += buf;
     }
+    ESP_LOGD(TAG, "Raw packet: %s", hex.c_str());
+
+    // Optional: parse known binary format here
+    // Example: if raw[0] == 0xFF and raw[1] == high byte, raw[2] == low byte
+    if (raw.size() >= 3 && raw[0] == 0xFF) {
+      uint16_t mm = (raw[1] << 8) | raw[2];
+      float cm = mm / 10.0f;
+      ESP_LOGD(TAG, "Parsed distance: %.1f cm", cm);
+      this->publish_state(cm);
+    } else {
+      ESP_LOGW(TAG, "Unexpected packet format");
+    }
+  } else {
+    ESP_LOGW(TAG, "No response from sensor");
   }
 }
 

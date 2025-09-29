@@ -12,32 +12,34 @@ void A0221ATSensor::set_uart_parent(esphome::uart::UARTComponent *parent) {
 }
 
 void A0221ATSensor::update() {
-  this->uart_->flush();  // Clear stale buffer
-  std::string line;
+  static std::string buffer;
 
   ESP_LOGD(TAG, "Update triggered, UART available: %d", this->uart_->available());
-  ESP_LOGD(TAG, "Reading bytes:");
 
   while (this->uart_->available()) {
     uint8_t c;
     if (!this->uart_->read_byte(&c)) break;
     ESP_LOGD(TAG, "Byte: 0x%02X (%c)", c, static_cast<char>(c));
-    if (c == '\n') break;
-    line += static_cast<char>(c);
-  }
+    buffer += static_cast<char>(c);
 
-  if (!line.empty() && line.back() == '\r') {
-    line.pop_back();
-  }
+    if (c == '\n') {
+      std::string line = buffer;
+      buffer.clear();
 
-  ESP_LOGD(TAG, "Raw line: '%s'", line.c_str());
+      if (!line.empty() && line.back() == '\r') {
+        line.pop_back();
+      }
 
-  float value = this->parse_sensor_value(line);
-  if (!std::isnan(value)) {
-    ESP_LOGD(TAG, "Parsed value: %.2f", value);
-    this->publish_state(value);
-  } else {
-    ESP_LOGW(TAG, "Failed to parse sensor value from line: '%s'", line.c_str());
+      ESP_LOGD(TAG, "Raw line: '%s'", line.c_str());
+
+      float value = this->parse_sensor_value(line);
+      if (!std::isnan(value)) {
+        ESP_LOGD(TAG, "Parsed value: %.2f", value);
+        this->publish_state(value);
+      } else {
+        ESP_LOGW(TAG, "Failed to parse sensor value from line: '%s'", line.c_str());
+      }
+    }
   }
 }
 

@@ -9,6 +9,7 @@ from esphome.const import (
     CONF_ACCURACY_DECIMALS,
     CONF_UPDATE_INTERVAL,
     CONF_DISABLED_BY_DEFAULT,
+    CONF_FORCE_UPDATE,
 )
 
 DEPENDENCIES = ["uart"]
@@ -23,6 +24,7 @@ CONFIG_SCHEMA = cv.Schema({
     cv.Optional(CONF_ACCURACY_DECIMALS, default=1): cv.positive_int,
     cv.Optional(CONF_UPDATE_INTERVAL, default="1s"): cv.update_interval,
     cv.Optional(CONF_DISABLED_BY_DEFAULT, default=False): cv.boolean,
+    cv.Optional(CONF_FORCE_UPDATE, default=False): cv.boolean,
 }).extend(uart.UART_DEVICE_SCHEMA)
 
 async def to_code(config):

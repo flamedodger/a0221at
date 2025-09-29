@@ -22,6 +22,7 @@ CONFIG_SCHEMA = cv.Schema({
     cv.Optional(CONF_UNIT_OF_MEASUREMENT, default="cm"): cv.string,
     cv.Optional(CONF_ACCURACY_DECIMALS, default=1): cv.positive_int,
     cv.Optional(CONF_UPDATE_INTERVAL, default="1s"): cv.update_interval,
+    cv.Optional(CONF_DISABLED_BY_DEFAULT, default=False): cv.boolean,
 }).extend(uart.UART_DEVICE_SCHEMA)
 
 async def to_code(config):

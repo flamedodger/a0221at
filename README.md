@@ -35,12 +35,10 @@ a0221at/
 ├── uart_handler.py
 ├── README.md
 
-# A0221AT ESPHome Integration
 
-Trigger-based UART integration for A0221AT ultrasonic sensor.
+## 📦 ESPHome Installation – Add this to your ESPHome YAML
 
-## 📦 ESPHome Installation - Add this to your ESPHome YAML:
-
+```yaml
 external_components:
   - source: github://flamedodger/a0221at@main
     components: [a0221at]
@@ -70,6 +68,7 @@ sensor:
       if (cm < 0) cm = 0;
       return (cm / depth) * 100.0;
     update_interval: 1s
+
 
 ## Pinout
 

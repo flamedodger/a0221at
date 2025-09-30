@@ -1,6 +1,6 @@
 
 
-## A02YYUW-MQTT **(A0221AT)**
+## A02YYUW **(A0221AT)**
 
 ## Overview
 
@@ -31,7 +31,8 @@ This project uses the A0221AT Manual UART version of the A02YYUW ultrasonic sens
 
 ![A0221AT Sensor Module (ESPBoards)](https://www.espboards.dev/img/GZGsogluph-1000.avif)
 
-![A0221AT IP65 Waterproof Version](https://www.robotshop.com/media/catalog/product/cache/1/image/800x800/9df78eab33525d08d6e5fb8d27136e95/u/l/ultrasonic_sensor_ip65.jpg)
+![A02YYUW Ultrasonic Sensor](https://m.media-amazon.com/images/I/61TlvhztvKL._AC_SL1500_.jpg)
+
 
 ## Folder Structure
 
@@ -68,9 +69,23 @@ uart:
 
 sensor:
   - platform: a0221at
-    name: "A0221AT Distance"
+    name: "Fill Level"
+    id: tank_level_cm
     unit_of_measurement: "cm"
     accuracy_decimals: 1
+    update_interval: 1s
+
+  - platform: template
+    name: "Fill Level %"
+    unit_of_measurement: "%"
+    accuracy_decimals: 1
+    lambda: |-
+      float depth = 20.0;
+      float cm = id(tank_level_cm).state;
+      if (isnan(cm)) return NAN;
+      if (cm > depth) cm = depth;
+      if (cm < 0) cm = 0;
+      return (cm / depth) * 100.0;
     update_interval: 1s
 
 
@@ -89,13 +104,33 @@ sensor:
 
 ## ⚙️ Setup
 
-1. Connect A02YYUW sensor to ESP32 UART (e.g. RX2/TX2 eg.GPIO16/GPIO17)
-2. Flash `main.ino` using Arduino IDE or PlatformIO
-3. Configure MQTT broker credentials in `mqtt_bridge.cpp`
-4. Adjust tank depth constants in `water_level.cpp`
-5. Monitor published topics:
-   - `nft/water_level` → percentage
-   - `nft/water_state` → "low", "medium", "full"
+Connect A0221AT (A02YYUW) ultrasonic sensor to ESP32 UART:
+
+    RX → GPIO16
+
+    TX → GPIO17
+
+    VCC → 3.3 V
+
+    GND → GND (Sensor operates reliably at 3.3 V for short-range detection up to ~350 cm)
+
+Flash tank-level.yaml using ESPHome via Home Assistant or CLI
+
+Define tank depth constant in template sensor logic (e.g. depth = 20.0)
+
+Expose two sensors:
+
+    sensor.tank_level_cm → raw depth in centimetres
+
+    sensor.tank_level_percent → converted fill percentage (0–100%)
+
+Optional binary sensor for fill state logic:
+
+    "low" → < 25%
+
+    "medium" → 25–75%
+
+    "full" → > 75%
 
 ## Notes
 

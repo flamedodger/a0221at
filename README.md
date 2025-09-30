@@ -39,7 +39,8 @@ a0221at/
 
 Trigger-based UART integration for A0221AT ultrasonic sensor.
 
-## 📦 ESPHome Installation - Add this to your ESPHome YAML:
+## 📦 ESPHome Installation 
+- Add this to your ESPHome YAML:
 
 external_components:
   - source: github://flamedodger/a0221at@main

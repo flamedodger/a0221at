@@ -36,7 +36,14 @@ a0221at/
 ├── README.md
 
 
+<<<<<<< HEAD
 ## 📦 ESPHome Installation – Add this to your ESPHome YAML
+=======
+Trigger-based UART integration for A0221AT ultrasonic sensor.
+
+## 📦 ESPHome Installation 
+- Add this to your ESPHome YAML:
+>>>>>>> c71931ae8ec8370995a4e61f33dbfea1c9c265f0
 
 ```yaml
 external_components:

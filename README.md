@@ -73,9 +73,10 @@ sensor:
       if (cm < 0) cm = 0;
       return (cm / depth) * 100.0;
     update_interval: 1s
+```
+---
 
-
-## Pinout
+## ⚙️ Pinout
 
 | ESP32 Pin | A02YYUW Wire | Function        |
 |-----------|--------------|-----------------|

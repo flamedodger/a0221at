@@ -39,19 +39,10 @@ a0221at/
 
 Trigger-based UART integration for A0221AT ultrasonic sensor.
 
-## Installation
-
-```yaml
-external_components:
-  - source: github://flamedodger/a0221at@v1.0.19
-    components: [a0221at]
-
-📦 ESPHome Installation
-
-Add this to your ESPHome YAML:
+## 📦 ESPHome Installation - Add this to your ESPHome YAML:
 
 external_components:
-  - source: github://flamedodger/a0221at@v1.0.25
+  - source: github://flamedodger/a0221at@main
     components: [a0221at]
 
 uart:
@@ -67,7 +58,7 @@ sensor:
     accuracy_decimals: 1
     update_interval: 1s
 
-  - platform: template  
+  - platform: template
     name: "Fill Level %"
     unit_of_measurement: "%"
     accuracy_decimals: 1

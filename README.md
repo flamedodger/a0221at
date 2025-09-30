@@ -1,49 +1,47 @@
-## A02YYUW **(A0221AT)**
+# A0221AT ESPHome Integration
 
-## Overview
+![Version](https://img.shields.io/badge/version-v1.0.30-blue)
+![Platform](https://img.shields.io/badge/platform-ESP32-green)
+![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
-Trigger-based UART integration for the A0221AT ultrasonic sensor. Sends a command to initiate measurement and parses binary response packets (0xFF HH LL) into distance readings. Designed for ESPHome external component use with full Home Assistant telemetry.
+Trigger-based UART integration for the A0221AT ultrasonic sensor (A02YYUW Manual UART). Designed for ESPHome external component use with full Home Assistant telemetry.
 
-## Sensor Model
+---
 
-This project uses the **A0221AT Manual UART version** of the A02YYUW ultrasonic sensor.
+## 📖 Overview
 
-    Model number: A0221AT
+This integration sends a manual UART trigger to the A0221AT sensor and parses its binary response (`0xFF HH LL`) into distance readings. It supports:
 
-    Do not use the PWM version — it outputs pulse-width signals, not serial data
+- Raw depth in centimetres
+- Fill percentage conversion
+- Optional binary fill state logic
 
-    Do not use the auto-UART version — this setup expects manual serial polling
+---
 
-    All four wires are connected: VCC, GND, TX, and RX
+## 🔍 Sensor Model
 
-    Sensor communicates at 9600 baud and must be polled manually
+- **Model:** A0221AT (Manual UART version of A02YYUW)
+- **Baud rate:** 9600
+- **Wiring:** VCC, GND, TX, RX
+- **Trigger:** Manual polling required (`R\r\n`)
+- ⚠️ Rated for 5 V, but works reliably at 3.3 V on ESP32
 
-    ⚠️ Sensor is rated for 5 V supply, but works reliably at 3.3 V with ESP32. Monitor for range or stability issues
+Avoid:
+- PWM version (outputs pulse-width, not serial)
+- Auto-UART version (auto-transmits, not compatible)
+
+---
 
 ## 🖼️ Hardware
 
-![A0221AT Sensor Module (ESPBoards)](https://www.espboards.dev/img/GZGsogluph-1000.avif)
-
+![A0221AT Sensor Module (ESPBoards)](https://www.espboards.dev/img/GZGsogluph-1000.avif)  
 ![A02YYUW Ultrasonic Sensor](https://m.media-amazon.com/images/I/61TlvhztvKL._AC_SL1500_.jpg)
 
-## Folder Structure
+---
 
-a0221at/
-├── __init__.py
-├── sensor.py
-├── const.py
-├── uart_handler.py
-├── README.md
+## 📦 ESPHome Installation
 
-
-<<<<<<< HEAD
-## 📦 ESPHome Installation – Add this to your ESPHome YAML
-=======
-Trigger-based UART integration for A0221AT ultrasonic sensor.
-
-## 📦 ESPHome Installation 
-- Add this to your ESPHome YAML:
->>>>>>> c71931ae8ec8370995a4e61f33dbfea1c9c265f0
+Add this to your ESPHome YAML:
 
 ```yaml
 external_components:
@@ -118,6 +116,16 @@ Optional binary sensor for fill state logic:
     "medium" → 25–75%
 
     "full" → > 75%
+
+📂 Folder Structure
+
+a0221at/
+├── __init__.py
+├── sensor.py
+├── const.py
+├── uart_handler.py
+├── README.md
+
 
 ## Notes
 

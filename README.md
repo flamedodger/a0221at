@@ -1,5 +1,3 @@
-
-
 ## A02YYUW **(A0221AT)**
 
 ## Overview
@@ -9,10 +7,6 @@ Trigger-based UART integration for the A0221AT ultrasonic sensor. Sends a comman
 ## Sensor Model
 
 This project uses the **A0221AT Manual UART version** of the A02YYUW ultrasonic sensor.
-
-Sensor Model
-
-This project uses the A0221AT Manual UART version of the A02YYUW ultrasonic sensor.
 
     Model number: A0221AT
 
@@ -26,13 +20,11 @@ This project uses the A0221AT Manual UART version of the A02YYUW ultrasonic sens
 
     ⚠️ Sensor is rated for 5 V supply, but works reliably at 3.3 V with ESP32. Monitor for range or stability issues
 
-
 ## 🖼️ Hardware
 
 ![A0221AT Sensor Module (ESPBoards)](https://www.espboards.dev/img/GZGsogluph-1000.avif)
 
 ![A02YYUW Ultrasonic Sensor](https://m.media-amazon.com/images/I/61TlvhztvKL._AC_SL1500_.jpg)
-
 
 ## Folder Structure
 
@@ -59,7 +51,7 @@ external_components:
 Add this to your ESPHome YAML:
 
 external_components:
-  - source: github://flamedodger/a0221at@v1.0.20
+  - source: github://flamedodger/a0221at@v1.0.25
     components: [a0221at]
 
 uart:
@@ -75,7 +67,7 @@ sensor:
     accuracy_decimals: 1
     update_interval: 1s
 
-  - platform: template
+  - platform: template  
     name: "Fill Level %"
     unit_of_measurement: "%"
     accuracy_decimals: 1
@@ -88,7 +80,6 @@ sensor:
       return (cm / depth) * 100.0;
     update_interval: 1s
 
-
 ## Pinout
 
 | ESP32 Pin | A02YYUW Wire | Function        |
@@ -100,7 +91,6 @@ sensor:
 
 - Sensor must be polled via `TX2` to trigger a response
 - Response is read on `RX2` as a 4-byte packet: `0xFF 0xXX 0xYY checksum`
-
 
 ## ⚙️ Setup
 
@@ -143,6 +133,5 @@ Optional binary sensor for fill state logic:
     Works reliably at 3.3 V on ESP32, despite 5 V spec — monitor for range or cold-boot issues
 
     No external logic shifter required when using native ESP32 UART
-
 
 # A02YUUW/a0221at

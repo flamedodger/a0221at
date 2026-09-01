@@ -14,16 +14,18 @@ void A0221ATSensor::set_uart_parent(esphome::uart::UARTComponent *parent) {
 
 void A0221ATSensor::update() {
   // Send trigger command — adjust if needed
+  this->uart_->flush();
   const char *trigger = "R\r\n";  // Some models use "\r" or "U"
   this->uart_->write_str(trigger);
   ESP_LOGD(TAG, "Sent trigger: '%s'", trigger);
 
-  delay(50);  // Allow sensor time to respond
+  delay(75);  // Allow sensor time to respond
 
   std::vector<uint8_t> raw;
   while (this->uart_->available()) {
     uint8_t c;
-    if (!this->uart_->read_byte(&c)) break;
+    if (!this->uart_->read_byte(&c))
+      break;
     raw.push_back(c);
     ESP_LOGD(TAG, "Byte: 0x%02X (%c)", c, static_cast<char>(c));
   }

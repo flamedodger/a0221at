@@ -2,7 +2,7 @@
 
 This is a fork of flamedodger's repo; original can be found [here](https://github.com/flamedodger/a0221at)
 
-![Version](https://img.shields.io/badge/version-v1.0.31-blue)
+![Version](https://img.shields.io/badge/version-v1.0.32-blue)
 ![Platform](https://img.shields.io/badge/platform-ESP32-green)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
